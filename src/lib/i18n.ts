@@ -1,0 +1,106 @@
+export type Lang = 'pt' | 'en';
+
+export const i18n = {
+  pt: {
+    nav: { features: 'Funcionalidades', product: 'Produto', integrations: 'Integrações', login: 'Entrar', cta: 'Criar conta' },
+    hero: {
+      pill: 'Sistema Orbit · Cockpit de gestão',
+      title1: 'A órbita completa da',
+      title2: 'sua empresa.',
+      subtitle: 'Metas, planos de ação e KPIs em uma única plataforma. Centralize a operação, execute rituais de gestão e decida com dados em tempo real.',
+      cta: 'Criar conta grátis →',
+      ctaGhost: 'Ver demonstração',
+      badge1: 'Setup em 10 min',
+      badge2: 'Dados em tempo real',
+      badge3: 'Multi-empresa',
+    },
+    logos: 'Operações gerenciadas com Orbit',
+    features: {
+      kicker: 'Funcionalidades',
+      title: 'Tudo que a gestão precisa, em um só cockpit.',
+      sub: 'Uma suíte modular construída para empresas que querem medir, executar e escalar.',
+      items: [
+        { tag: 'KPIs', title: 'Painel de KPIs vivo', desc: 'Acompanhe metas e indicadores em tempo real. Alertas automáticos quando algo sai do plano.', icon: 'kpi' },
+        { tag: 'Planos de Ação', title: 'Planos de ação 5W2H', desc: 'Distribua responsáveis, prazos e prioridades. Follow-up automático das entregas.', icon: 'action' },
+        { tag: 'Rituais', title: 'Rituais de gestão', desc: 'Daily, semanal, mensal. Estrutura pronta para reuniões que geram decisão — não ata.', icon: 'ritual' },
+        { tag: 'Calendário', title: 'Calendário operacional', desc: 'Visualize entregas, reuniões e ciclos. Sincronize com Google e Outlook.', icon: 'cal' },
+        { tag: 'Times', title: 'Gestão por áreas', desc: 'Comercial, Financeiro, Operação. Cada time com seus próprios indicadores e planos.', icon: 'team' },
+        { tag: 'Automação', title: 'Notificações inteligentes', desc: 'O sistema avisa o responsável antes do prazo estourar. Menos cobrança, mais execução.', icon: 'bell' },
+      ],
+    },
+    product: {
+      kicker: 'Produto',
+      title: 'O cockpit que você sempre quis ter aberto.',
+      sub: 'Uma tela que responde três perguntas: como estamos, o que está travado, e o que vem a seguir.',
+    },
+    integrations: {
+      kicker: 'Integrações',
+      title: 'Conecte com o que já roda na sua empresa.',
+      sub: 'Orbit conversa com o seu ERP, planilhas, apps de comunicação e ferramentas de BI.',
+    },
+    cta: {
+      title: 'Pronto para girar a sua operação?',
+      sub: 'Crie sua conta em menos de 2 minutos. Sem cartão, sem compromisso.',
+      btn: 'Criar conta grátis →',
+      btn2: 'Agendar uma demo',
+    },
+    footer: {
+      product: 'Produto',
+      company: 'Empresa',
+      resources: 'Recursos',
+      legal: 'Legal',
+      tag: 'Sistema Orbit — Gestão em órbita.',
+    },
+  },
+  en: {
+    nav: { features: 'Features', product: 'Product', integrations: 'Integrations', login: 'Sign in', cta: 'Sign up' },
+    hero: {
+      pill: 'Sistema Orbit · Management cockpit',
+      title1: 'Your company\'s full',
+      title2: 'orbit.',
+      subtitle: 'Goals, action plans and KPIs on a single platform. Centralize operations, run management rituals and decide with real-time data.',
+      cta: 'Create free account →',
+      ctaGhost: 'Watch demo',
+      badge1: '10-min setup',
+      badge2: 'Real-time data',
+      badge3: 'Multi-company',
+    },
+    logos: 'Operations running on Orbit',
+    features: {
+      kicker: 'Features',
+      title: 'Everything management needs, in one cockpit.',
+      sub: 'A modular suite built for companies that want to measure, execute and scale.',
+      items: [
+        { tag: 'KPIs', title: 'Live KPI board', desc: 'Track goals and indicators in real time. Automatic alerts when something goes off plan.', icon: 'kpi' },
+        { tag: 'Action Plans', title: '5W2H action plans', desc: 'Assign owners, deadlines and priorities. Automatic delivery follow-up.', icon: 'action' },
+        { tag: 'Rituals', title: 'Management rituals', desc: 'Daily, weekly, monthly. A ready framework for meetings that drive decisions — not minutes.', icon: 'ritual' },
+        { tag: 'Calendar', title: 'Operational calendar', desc: 'See deliveries, meetings and cycles. Sync with Google and Outlook.', icon: 'cal' },
+        { tag: 'Teams', title: 'Management by area', desc: 'Sales, Finance, Ops. Each team with its own indicators and plans.', icon: 'team' },
+        { tag: 'Automation', title: 'Smart notifications', desc: 'The system warns the owner before the deadline slips. Less chasing, more execution.', icon: 'bell' },
+      ],
+    },
+    product: {
+      kicker: 'Product',
+      title: 'The cockpit you always wanted open.',
+      sub: 'One screen that answers three questions: how are we, what\'s blocked, what\'s next.',
+    },
+    integrations: {
+      kicker: 'Integrations',
+      title: 'Plug into what already runs your company.',
+      sub: 'Orbit talks to your ERP, spreadsheets, chat apps and BI tools.',
+    },
+    cta: {
+      title: 'Ready to spin up your operation?',
+      sub: 'Create your account in under 2 minutes. No card, no commitment.',
+      btn: 'Create free account →',
+      btn2: 'Book a demo',
+    },
+    footer: {
+      product: 'Product',
+      company: 'Company',
+      resources: 'Resources',
+      legal: 'Legal',
+      tag: 'Sistema Orbit — Management in orbit.',
+    },
+  },
+} as const;
