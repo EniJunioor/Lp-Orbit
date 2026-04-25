@@ -17,78 +17,93 @@ interface HeroSceneProps {
   rocketModelPath?: string
 }
 
-// ─── Glow Sun ──────────────────────────────────────────────────────────────
-
-function GlowingCore() {
+// ─── Eclipse (Dark Core with Glowing Corona) ─────────────────────────────────
+// Fica muito melhor atrás de textos porque o meio escuro não atrapalha a leitura!
+function EclipseCore() {
   const coreRef = useRef<THREE.Mesh>(null)
-  const haloRef = useRef<THREE.Mesh>(null)
+  const coronaRef = useRef<THREE.Mesh>(null)
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime()
     if (coreRef.current) {
-      coreRef.current.rotation.y = t * 0.1
-      coreRef.current.rotation.z = t * 0.05
+      coreRef.current.rotation.y = t * 0.05
     }
-    if (haloRef.current) {
-      // Pulsação suave do halo
-      haloRef.current.scale.setScalar(1 + Math.sin(t * 1.5) * 0.03)
+    if (coronaRef.current) {
+      // Pulsação suave da corona
+      coronaRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.02)
     }
   })
 
-  // Material emissivo intenso para o Bloom pegar (> 1 luminance)
+  // Núcleo escuro (buraco negro / eclipse)
   const coreMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
-      color: '#000000',
-      emissive: new THREE.Color('#7b61ff').multiplyScalar(4), // Brilho roxo intenso
-      roughness: 0.8,
+      color: '#020008',
+      emissive: '#000000',
+      roughness: 0.2,
+      metalness: 0.8,
     })
   }, [])
 
   return (
-    <group position={[0, 0, -2]}>
-      {/* Luz principal irradiando do núcleo */}
-      <pointLight color="#7b61ff" intensity={6} distance={30} decay={1.5} />
-      <pointLight color="#00d4ff" intensity={3} distance={15} decay={2} position={[0, 0, 2]} />
+    <group position={[0, 0, -3]}>
+      {/* Luz principal irradiando do eclipse */}
+      <pointLight color="#7b61ff" intensity={4} distance={30} decay={1.5} />
+      <pointLight color="#00d4ff" intensity={2} distance={15} decay={2} position={[0, 0, 2]} />
 
-      {/* Core principal brilhante */}
+      {/* Core principal escuro */}
       <mesh ref={coreRef} material={coreMaterial}>
-        <icosahedronGeometry args={[1.6, 12]} />
+        <sphereGeometry args={[2.0, 64, 64]} />
       </mesh>
 
-      {/* Halo atmosférico interno cyan */}
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[2.0, 32, 32]} />
-        <meshBasicMaterial
-          color="#00d4ff"
-          transparent
-          opacity={0.15}
-          side={THREE.BackSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-      
-      {/* Halo atmosférico externo roxo */}
-      <mesh>
-        <sphereGeometry args={[3.2, 32, 32]} />
-        <meshBasicMaterial
-          color="#7b61ff"
-          transparent
-          opacity={0.08}
-          side={THREE.BackSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+      {/* Corona brilhante (Anel de luz ao redor) */}
+      <group ref={coronaRef} position={[0, 0, -0.1]}>
+        {/* Camada Rixa intensa */}
+        <mesh>
+          <ringGeometry args={[1.9, 2.1, 128]} />
+          <meshBasicMaterial 
+            color="#7b61ff" 
+            transparent 
+            opacity={0.8} 
+            side={THREE.DoubleSide} 
+            blending={THREE.AdditiveBlending} 
+            depthWrite={false} 
+          />
+        </mesh>
+        
+        {/* Camada Ciano exterior suave */}
+        <mesh position={[0, 0, -0.1]}>
+          <ringGeometry args={[2.0, 2.5, 128]} />
+          <meshBasicMaterial 
+            color="#00d4ff" 
+            transparent 
+            opacity={0.3} 
+            side={THREE.DoubleSide} 
+            blending={THREE.AdditiveBlending} 
+            depthWrite={false} 
+          />
+        </mesh>
+
+        {/* Glow difuso super grande */}
+        <mesh position={[0, 0, -0.2]}>
+          <sphereGeometry args={[3.2, 32, 32]} />
+          <meshBasicMaterial
+            color="#7b61ff"
+            transparent
+            opacity={0.06}
+            side={THREE.BackSide}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+      </group>
     </group>
   )
 }
 
-// ─── Ringed Planet ───────────────────────────────────────────────────────────
+// ─── Floating Planet (Sem Anéis) ─────────────────────────────────────────────
 
-function RingedPlanet() {
+function FloatingPlanet() {
   const groupRef = useRef<THREE.Group>(null)
-  const ringRef = useRef<THREE.Mesh>(null)
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
@@ -108,35 +123,14 @@ function RingedPlanet() {
   // Material super liso/metálico para refletir as luzes coloridas
   const planetMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#0d0d1a',
-    roughness: 0.1,
+    roughness: 0.15,
     metalness: 0.9,
   }), [])
 
   return (
     <group ref={groupRef}>
-      {/* Planet body */}
       <mesh castShadow receiveShadow material={planetMaterial}>
-        <sphereGeometry args={[0.55, 64, 64]} />
-      </mesh>
-
-      {/* Glowing Rings */}
-      <mesh ref={ringRef} rotation={[Math.PI / 2.5, 0.2, 0]}>
-        <ringGeometry args={[0.8, 1.4, 64]} />
-        <meshStandardMaterial
-          color="#00d4ff"
-          emissive={new THREE.Color('#00d4ff').multiplyScalar(1.5)} // Brilha com Bloom
-          transparent
-          opacity={0.7}
-          side={THREE.DoubleSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-      
-      {/* Inner thin ring */}
-      <mesh rotation={[Math.PI / 2.5, 0.2, 0]}>
-        <ringGeometry args={[1.45, 1.48, 64]} />
-        <meshBasicMaterial color="#7b61ff" transparent opacity={0.6} side={THREE.DoubleSide} />
+        <sphereGeometry args={[0.65, 64, 64]} />
       </mesh>
     </group>
   )
@@ -160,11 +154,11 @@ function Moon() {
   return (
     <group ref={groupRef}>
       <mesh castShadow receiveShadow>
-        <sphereGeometry args={[0.18, 32, 32]} />
+        <sphereGeometry args={[0.2, 32, 32]} />
         <meshStandardMaterial
-          color="#e0e0ff"
-          roughness={0.4}
-          metalness={0.6}
+          color="#a1a1d1"
+          roughness={0.3}
+          metalness={0.7}
         />
       </mesh>
     </group>
@@ -198,8 +192,8 @@ function RocketModel({ path }: { path: string }) {
 
   return (
     <Trail
-      width={1.2}
-      length={10}
+      width={0.8}
+      length={12}
       color={new THREE.Color('#00d4ff')}
       attenuation={(t) => t * t}
     >
@@ -217,11 +211,10 @@ function RocketModel({ path }: { path: string }) {
 function RocketPrimitive() {
   const groupRef = useRef<THREE.Group>(null)
   
-  // O segredo do Bloom é multiplicar a cor emissiva por um escalar > 1
   const emissiveMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
       color: '#00d4ff',
-      emissive: new THREE.Color('#00d4ff').multiplyScalar(5),
+      emissive: '#00d4ff',
       toneMapped: false
     })
   }, [])
@@ -248,8 +241,8 @@ function RocketPrimitive() {
 
   return (
     <Trail
-      width={0.4}
-      length={16}
+      width={0.3}
+      length={20}
       color={new THREE.Color('#00d4ff')}
       attenuation={(t) => t * t}
     >
@@ -282,10 +275,10 @@ function RocketPrimitive() {
         
         {/* Glowing Engine Flame */}
         <mesh position={[0, -0.38, 0]}>
-          <coneGeometry args={[0.06, 0.25, 16]} />
+          <coneGeometry args={[0.04, 0.2, 16]} />
           <primitive object={emissiveMaterial} attach="material" />
         </mesh>
-        <pointLight color="#00d4ff" intensity={5} distance={4} decay={2} position={[0, -0.4, 0]} />
+        <pointLight color="#00d4ff" intensity={3} distance={4} decay={2} position={[0, -0.4, 0]} />
       </group>
     </Trail>
   )
@@ -304,7 +297,7 @@ function OrbitRingDecor({ radius, tilt = 0, speed = 0.05 }: { radius: number; ti
   return (
     <mesh ref={ref} rotation={[Math.PI / 2 + tilt, 0, 0]} position={[0, 0, -2]}>
       <ringGeometry args={[radius - 0.015, radius + 0.015, 128]} />
-      <meshBasicMaterial color="#7b61ff" transparent opacity={0.25} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+      <meshBasicMaterial color="#7b61ff" transparent opacity={0.15} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
     </mesh>
   )
 }
@@ -335,27 +328,28 @@ function SceneContent({
 
   return (
     <>
-      <color attach="background" args={['#050511']} />
-      <ambientLight intensity={0.3} color="#7b61ff" />
+      <color attach="background" args={['#03020a']} />
+      <ambientLight intensity={0.2} color="#7b61ff" />
       
       {/* Estrelas dinâmicas */}
       <Stars radius={100} depth={50} count={2500} factor={4} saturation={1} fade speed={1} />
       
       {/* Poeira espacial brilhante */}
-      <Sparkles count={400} scale={15} size={2} speed={0.4} opacity={0.2} color="#00d4ff" />
-      <Sparkles count={300} scale={20} size={3} speed={0.2} opacity={0.1} color="#7b61ff" />
+      <Sparkles count={300} scale={15} size={2} speed={0.4} opacity={0.3} color="#00d4ff" />
+      <Sparkles count={200} scale={20} size={3} speed={0.2} opacity={0.2} color="#7b61ff" />
 
       {/* Linhas de Órbita */}
-      <OrbitRingDecor radius={2.8} tilt={0.1} speed={0.02} />
+      <OrbitRingDecor radius={3.2} tilt={0.1} speed={0.02} />
       <OrbitRingDecor radius={4.8} tilt={-0.15} speed={-0.015} />
       <OrbitRingDecor radius={6.5} tilt={0.05} speed={0.01} />
 
-      {/* Planetas e Sol */}
-      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-        <GlowingCore />
+      {/* Eclipse (Fundo central) */}
+      <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.2}>
+        <EclipseCore />
       </Float>
       
-      <RingedPlanet />
+      {/* Planetas */}
+      <FloatingPlanet />
       <Moon />
 
       {/* Rocket */}
@@ -367,11 +361,11 @@ function SceneContent({
         )}
       </Suspense>
 
-      {/* Post-Processing (O que deixa tudo WOW) */}
+      {/* Post-Processing */}
       <EffectComposer disableNormalPass multisampling={4}>
         <Bloom 
-          luminanceThreshold={1.5} 
-          intensity={1.5} 
+          luminanceThreshold={0.5} 
+          intensity={1.0} 
         />
       </EffectComposer>
     </>
@@ -408,7 +402,7 @@ export default function HeroScene({ rocketModelPath }: HeroSceneProps) {
         dpr={[1, 2]}
         camera={{ position: [0, 1.5, 8], fov: 50, near: 0.1, far: 200 }}
         gl={{
-          antialias: false, // Desabilitado pro EffectComposer cuidar com multisampling
+          antialias: false,
           alpha: false,
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
