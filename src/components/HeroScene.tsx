@@ -17,85 +17,56 @@ interface HeroSceneProps {
   rocketModelPath?: string
 }
 
-// ─── Eclipse (Dark Core with Glowing Corona) ─────────────────────────────────
-// Fica muito melhor atrás de textos porque o meio escuro não atrapalha a leitura!
-function EclipseCore() {
+// ─── Glass Core (Esfera de Cristal Premium) ──────────────────────────────────
+// Substitui o Eclipse escuro por uma esfera de vidro hiper-realista que distorce a luz
+function GlassCore() {
   const coreRef = useRef<THREE.Mesh>(null)
-  const coronaRef = useRef<THREE.Mesh>(null)
+  const ringRef = useRef<THREE.Mesh>(null)
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime()
     if (coreRef.current) {
       coreRef.current.rotation.y = t * 0.05
     }
-    if (coronaRef.current) {
-      // Pulsação suave da corona
-      coronaRef.current.scale.setScalar(1 + Math.sin(t * 2) * 0.02)
+    if (ringRef.current) {
+      ringRef.current.rotation.z = t * 0.1
+      ringRef.current.rotation.x = Math.PI / 2 + Math.sin(t * 0.5) * 0.05
     }
   })
 
-  // Núcleo escuro (buraco negro / eclipse)
-  const coreMaterial = useMemo(() => {
-    return new THREE.MeshStandardMaterial({
-      color: '#020008',
-      emissive: '#000000',
-      roughness: 0.2,
-      metalness: 0.8,
+  // Material de vidro (Glassmorphism 3D)
+  const glassMaterial = useMemo(() => {
+    return new THREE.MeshPhysicalMaterial({
+      color: '#ffffff',
+      transmission: 0.95, // Efeito de vidro transparente
+      opacity: 1,
+      metalness: 0.1,
+      roughness: 0.15,
+      ior: 1.5,
+      thickness: 1.5, // Distorce o que está atrás
+      specularIntensity: 1,
+      specularColor: new THREE.Color('#7b61ff'),
+      envMapIntensity: 1,
+      side: THREE.FrontSide
     })
   }, [])
 
   return (
     <group position={[0, 0, -3]}>
-      {/* Luz principal irradiando do eclipse */}
-      <pointLight color="#7b61ff" intensity={4} distance={30} decay={1.5} />
-      <pointLight color="#00d4ff" intensity={2} distance={15} decay={2} position={[0, 0, 2]} />
+      {/* Luzes atrás e dentro do vidro para criar refração colorida */}
+      <pointLight color="#7b61ff" intensity={4} distance={20} position={[-1.5, 1.5, -2]} />
+      <pointLight color="#00d4ff" intensity={4} distance={20} position={[1.5, -1.5, -2]} />
 
-      {/* Core principal escuro */}
-      <mesh ref={coreRef} material={coreMaterial}>
+      {/* Núcleo de Cristal */}
+      <mesh ref={coreRef} material={glassMaterial}>
         <sphereGeometry args={[2.0, 64, 64]} />
       </mesh>
 
-      {/* Corona brilhante (Anel de luz ao redor) */}
-      <group ref={coronaRef} position={[0, 0, -0.1]}>
-        {/* Camada Rixa intensa */}
-        <mesh>
-          <ringGeometry args={[1.9, 2.1, 128]} />
-          <meshBasicMaterial 
-            color="#7b61ff" 
-            transparent 
-            opacity={0.8} 
-            side={THREE.DoubleSide} 
-            blending={THREE.AdditiveBlending} 
-            depthWrite={false} 
-          />
-        </mesh>
-        
-        {/* Camada Ciano exterior suave */}
-        <mesh position={[0, 0, -0.1]}>
-          <ringGeometry args={[2.0, 2.5, 128]} />
-          <meshBasicMaterial 
-            color="#00d4ff" 
-            transparent 
-            opacity={0.3} 
-            side={THREE.DoubleSide} 
-            blending={THREE.AdditiveBlending} 
-            depthWrite={false} 
-          />
-        </mesh>
-
-        {/* Glow difuso super grande */}
-        <mesh position={[0, 0, -0.2]}>
-          <sphereGeometry args={[3.2, 32, 32]} />
-          <meshBasicMaterial
-            color="#7b61ff"
-            transparent
-            opacity={0.06}
-            side={THREE.BackSide}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-          />
-        </mesh>
-      </group>
+      {/* Anel de luz fina cruzando o cristal */}
+      <mesh ref={ringRef}>
+        <torusGeometry args={[2.4, 0.005, 16, 100]} />
+        <meshBasicMaterial color="#00d4ff" transparent opacity={0.6} />
+      </mesh>
     </group>
   )
 }
@@ -343,9 +314,9 @@ function SceneContent({
       <OrbitRingDecor radius={4.8} tilt={-0.15} speed={-0.015} />
       <OrbitRingDecor radius={6.5} tilt={0.05} speed={0.01} />
 
-      {/* Eclipse (Fundo central) */}
+      {/* Central Glass Sphere */}
       <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.2}>
-        <EclipseCore />
+        <GlassCore />
       </Float>
       
       {/* Planetas */}

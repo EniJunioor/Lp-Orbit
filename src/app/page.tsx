@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import LogosStrip from '@/components/LogosStrip';
 import FeaturesSection from '@/components/FeaturesSection';
+import PricingSection from '@/components/PricingSection';
 import ProductShowcase from '@/components/ProductShowcase';
 import IntegrationsSection from '@/components/IntegrationsSection';
 import BigCTA from '@/components/BigCTA';
@@ -58,6 +59,7 @@ export default function Home() {
           <LogosStrip label={t.logos} />
         </div>
         <FeaturesSection t={t.features} />
+        <PricingSection t={t.pricing} />
         <ProductShowcase t={t.product} />
         <IntegrationsSection t={t.integrations} />
         <BigCTA t={t.cta} />

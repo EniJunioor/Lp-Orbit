@@ -2,11 +2,11 @@ export type Lang = 'pt' | 'en';
 
 export const i18n = {
   pt: {
-    nav: { features: 'Funcionalidades', product: 'Produto', integrations: 'Integrações', login: 'Entrar', cta: 'Criar conta' },
+    nav: { features: 'Funcionalidades', product: 'Produto', integrations: 'Integrações', pricing: 'Planos', login: 'Entrar', cta: 'Criar conta' },
     hero: {
       pill: 'Sistema Orbit · Cockpit de gestão',
-      title1: 'A órbita completa da',
-      title2: 'sua empresa.',
+      title1: 'Do caos às metas em',
+      title2: '1 semana.',
       subtitle: 'Metas, planos de ação e KPIs em uma única plataforma. Centralize a operação, execute rituais de gestão e decida com dados em tempo real.',
       cta: 'Criar conta grátis →',
       ctaGhost: 'Ver demonstração',
@@ -27,6 +27,16 @@ export const i18n = {
         { tag: 'Times', title: 'Gestão por áreas', desc: 'Comercial, Financeiro, Operação. Cada time com seus próprios indicadores e planos.', icon: 'team' },
         { tag: 'Automação', title: 'Notificações inteligentes', desc: 'O sistema avisa o responsável antes do prazo estourar. Menos cobrança, mais execução.', icon: 'bell' },
       ],
+    },
+    pricing: {
+      kicker: 'Planos',
+      title: 'Previsibilidade para escalar.',
+      sub: 'Sem taxas ocultas ou implantações infinitas. O Orbit cresce junto com a sua operação.',
+      plans: [
+        { name: 'Starter', price: 'R$ 490', period: '/mês', desc: 'Para pequenas equipes estruturando seus processos.', cta: 'Começar grátis', features: ['Até 10 usuários', 'KPIs ilimitados', 'Planos de ação básicos', 'Suporte por email'] },
+        { name: 'Pro', price: 'R$ 1.290', period: '/mês', desc: 'Para empresas em crescimento e múltiplos times.', cta: 'Testar Pro', features: ['Até 50 usuários', 'Integração ERP (Nativa)', 'Rituais automatizados', 'Suporte prioritário', 'Onboarding dedicado'], highlight: true },
+        { name: 'Enterprise', price: 'Custom', period: '', desc: 'Para operações complexas com alta segurança.', cta: 'Falar com vendas', features: ['Usuários ilimitados', 'SSO e SLA de 99.9%', 'Dashboards customizados', 'Gerente de conta exclusivo'] }
+      ]
     },
     product: {
       kicker: 'Produto',
@@ -53,11 +63,11 @@ export const i18n = {
     },
   },
   en: {
-    nav: { features: 'Features', product: 'Product', integrations: 'Integrations', login: 'Sign in', cta: 'Sign up' },
+    nav: { features: 'Features', product: 'Product', integrations: 'Integrations', pricing: 'Pricing', login: 'Sign in', cta: 'Sign up' },
     hero: {
       pill: 'Sistema Orbit · Management cockpit',
-      title1: 'Your company\'s full',
-      title2: 'orbit.',
+      title1: 'From chaos to goals',
+      title2: 'in 1 week.',
       subtitle: 'Goals, action plans and KPIs on a single platform. Centralize operations, run management rituals and decide with real-time data.',
       cta: 'Create free account →',
       ctaGhost: 'Watch demo',
@@ -78,6 +88,16 @@ export const i18n = {
         { tag: 'Teams', title: 'Management by area', desc: 'Sales, Finance, Ops. Each team with its own indicators and plans.', icon: 'team' },
         { tag: 'Automation', title: 'Smart notifications', desc: 'The system warns the owner before the deadline slips. Less chasing, more execution.', icon: 'bell' },
       ],
+    },
+    pricing: {
+      kicker: 'Pricing',
+      title: 'Predictability to scale.',
+      sub: 'No hidden fees or endless deployments. Orbit grows alongside your operation.',
+      plans: [
+        { name: 'Starter', price: '$99', period: '/mo', desc: 'For small teams structuring their processes.', cta: 'Start free', features: ['Up to 10 users', 'Unlimited KPIs', 'Basic action plans', 'Email support'] },
+        { name: 'Pro', price: '$249', period: '/mo', desc: 'For growing companies and multiple teams.', cta: 'Try Pro', features: ['Up to 50 users', 'Native ERP Integration', 'Automated rituals', 'Priority support', 'Dedicated onboarding'], highlight: true },
+        { name: 'Enterprise', price: 'Custom', period: '', desc: 'For complex operations requiring high security.', cta: 'Talk to sales', features: ['Unlimited users', 'SSO and 99.9% SLA', 'Custom dashboards', 'Dedicated account manager'] }
+      ]
     },
     product: {
       kicker: 'Product',

@@ -40,18 +40,18 @@ export default function Footer({ t }: { t: T }) {
             <p style={{fontSize:13,color:'var(--text-muted)',marginTop:14,maxWidth:260,lineHeight:1.6}}>{t.tag}</p>
           </div>
           {[
-            { title: t.product, links: ['Cockpit','KPIs','Planos de Ação','Rituais'] },
-            { title: t.company, links: ['Sobre','Clientes','Contato'] },
-            { title: t.resources, links: ['Documentação','API','Status'] },
-            { title: t.legal, links: ['Termos','Privacidade','LGPD'] },
+            { title: t.product, links: [{ name: 'Cockpit', href: '/#product' }, { name: 'KPIs', href: '/#features' }, { name: 'Planos de Ação', href: '/#features' }, { name: 'Rituais', href: '/#features' }] },
+            { title: t.company, links: [{ name: 'Sobre', href: '/sobre' }, { name: 'Clientes', href: '/#clientes' }, { name: 'Contato', href: 'mailto:contato@sistemaorbit.com.br' }] },
+            { title: t.resources, links: [{ name: 'Documentação', href: '/docs' }, { name: 'API', href: '/docs/api' }, { name: 'Status', href: 'https://status.sistemaorbit.com.br' }] },
+            { title: t.legal, links: [{ name: 'Termos', href: '/legal/termos' }, { name: 'Privacidade', href: '/legal/privacidade' }, { name: 'LGPD', href: '/legal/lgpd' }] },
           ].map((col) => (
             <div key={col.title}>
               <h6 style={{fontFamily:'var(--font-mono)',fontSize:11,fontWeight:600,color:'var(--text-primary)',letterSpacing:'.08em',textTransform:'uppercase',marginBottom:14}}>{col.title}</h6>
               {col.links.map(link => (
-                <a key={link} href="#" style={{display:'block',fontSize:13.5,color:'var(--text-secondary)',textDecoration:'none',padding:'5px 0',transition:'color .2s'}}
+                <a key={link.name} href={link.href} style={{display:'block',fontSize:13.5,color:'var(--text-secondary)',textDecoration:'none',padding:'5px 0',transition:'color .2s'}}
                   onMouseEnter={e => (e.target as HTMLElement).style.color='var(--accent)'}
                   onMouseLeave={e => (e.target as HTMLElement).style.color='var(--text-secondary)'}
-                >{link}</a>
+                >{link.name}</a>
               ))}
             </div>
           ))}

@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title: 'Sistema Orbit — Cockpit de Gestão',
   description: 'Metas, planos de ação e KPIs em uma única plataforma. Centralize a operação, execute rituais de gestão e decida com dados em tempo real.',
   openGraph: {
-    title: 'Sistema Orbit — Cockpit de Gestão',
-    description: 'Centralize a operação e decida com dados em tempo real.',
+    title: 'Sistema Orbit — Do caos às metas em 1 semana.',
+    description: 'O único cockpit de gestão que a sua empresa precisa. KPIs, planos de ação e rituais centralizados em uma tela.',
     url: 'https://sistemaorbit.com.br',
     siteName: 'Sistema Orbit',
     images: [
