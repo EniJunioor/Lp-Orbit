@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { i18n, type Lang } from '@/lib/i18n';
 import Navbar from '@/components/Navbar';
-import HeroScene from '@/components/HeroScene';
+import HeroSection from '@/components/HeroSection';
 import LogosStrip from '@/components/LogosStrip';
 import FeaturesSection from '@/components/FeaturesSection';
 import ProductShowcase from '@/components/ProductShowcase';
@@ -53,7 +53,7 @@ export default function Home() {
 
       <Navbar t={t.nav} lang={lang} setLang={setLang} />
       <main>
-        <HeroScene t={t} />
+        <HeroSection t={t} />
         <div style={{maxWidth:1240,margin:'0 auto',padding:'0 32px',position:'relative',zIndex:1}}>
           <LogosStrip label={t.logos} />
         </div>
