@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-type Plan = { name: string; price: string; period: string; desc: string; cta: string; features: string[]; highlight?: boolean };
-type PricingData = { kicker: string; title: string; sub: string; plans: Plan[] };
+type Plan = { readonly name: string; readonly price: string; readonly period: string; readonly desc: string; readonly cta: string; readonly features: readonly string[]; readonly highlight?: boolean };
+type PricingData = { readonly kicker: string; readonly title: string; readonly sub: string; readonly plans: readonly Plan[] };
 
 export default function PricingSection({ t }: { t: PricingData }) {
   const [annual, setAnnual] = useState(true);
