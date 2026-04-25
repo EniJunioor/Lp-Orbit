@@ -63,6 +63,21 @@ export default function Home() {
         <BigCTA t={t.cta} />
       </main>
       <Footer t={t.footer} />
+
+      {/* Global Bottom Blur Mask (Desfoque de aparecimento) */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '12vh',
+        pointerEvents: 'none',
+        zIndex: 50,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
+      }} />
     </>
   );
 }

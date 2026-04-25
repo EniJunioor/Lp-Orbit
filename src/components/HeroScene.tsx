@@ -362,7 +362,7 @@ function SceneContent({
       </Suspense>
 
       {/* Post-Processing */}
-      <EffectComposer disableNormalPass multisampling={4}>
+      <EffectComposer multisampling={4}>
         <Bloom 
           luminanceThreshold={0.5} 
           intensity={1.0} 

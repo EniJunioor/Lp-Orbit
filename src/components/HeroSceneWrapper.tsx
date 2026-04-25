@@ -24,13 +24,44 @@ export default function HeroSceneWrapper({
 
   if (isMobile) {
     return (
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 120% 80% at 50% 30%,#1a0a3a 0%,#050511 55%,#020206 100%)', overflow: 'hidden' }}>
-        {/* Fallback de background para mobile */}
+      <div style={{ position: 'absolute', inset: 0, background: '#03020a', overflow: 'hidden' }}>
+        {/* Glow de fundo difuso */}
         <div style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-          width: 160, height: 160, borderRadius: '50%',
-          background: 'radial-gradient(circle at 40% 40%,#fff 0%,#ffd88a 25%,#ff9e3f 55%,#d94eff 85%)',
-          boxShadow: '0 0 40px rgba(255,200,100,.6),0 0 120px rgba(217,78,255,.5),0 0 200px rgba(123,97,255,.4)'
+          position: 'absolute', top: '45%', left: '50%', transform: 'translate(-50%,-50%)',
+          width: '80vw', height: '80vw', maxWidth: 400, maxHeight: 400, borderRadius: '50%',
+          background: 'radial-gradient(circle at center, rgba(123,97,255,0.15) 0%, transparent 70%)',
+          filter: 'blur(20px)'
+        }} />
+        
+        {/* Corona Ciano (anel exterior) */}
+        <div style={{
+          position: 'absolute', top: '45%', left: '50%', transform: 'translate(-50%,-50%)',
+          width: 240, height: 240, borderRadius: '50%',
+          background: 'radial-gradient(circle at center, transparent 40%, rgba(0,212,255,0.4) 50%, transparent 60%)',
+          filter: 'blur(8px)',
+        }} />
+
+        {/* Corona Roxa (anel interior vibrante) */}
+        <div style={{
+          position: 'absolute', top: '45%', left: '50%', transform: 'translate(-50%,-50%)',
+          width: 210, height: 210, borderRadius: '50%',
+          background: 'radial-gradient(circle at center, transparent 45%, #7b61ff 52%, transparent 60%)',
+          filter: 'blur(4px)',
+          boxShadow: '0 0 60px rgba(123,97,255,0.5)'
+        }} />
+
+        {/* Núcleo Negro do Eclipse */}
+        <div style={{
+          position: 'absolute', top: '45%', left: '50%', transform: 'translate(-50%,-50%)',
+          width: 190, height: 190, borderRadius: '50%',
+          background: '#020008',
+        }} />
+        
+        {/* Estrelas estáticas para mobile */}
+        <div style={{
+          position: 'absolute', inset: 0, opacity: 0.3,
+          backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
         }} />
       </div>
     )
