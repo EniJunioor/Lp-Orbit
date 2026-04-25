@@ -63,6 +63,35 @@ export default function HeroSceneWrapper({
           backgroundImage: 'radial-gradient(circle at center, white 1px, transparent 1px)',
           backgroundSize: '40px 40px',
         }} />
+
+        {/* Foguete / Estrela Cadente animada via CSS puro (Super leve) */}
+        <div style={{
+          position: 'absolute',
+          top: '30%',
+          left: '-10%',
+          width: '80px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent, #00d4ff, #ffffff)',
+          borderRadius: '100%',
+          boxShadow: '0 0 15px #00d4ff, 0 0 30px #7b61ff',
+          animation: 'mobileRocket 6s infinite ease-in',
+          transform: 'rotate(-20deg)',
+          zIndex: 10
+        }} />
+
+        <style>{`
+          @keyframes mobileRocket {
+            0% { transform: translate(-20vw, -10vh) rotate(-20deg) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(120vw, 40vh) rotate(-20deg) scale(1.5); opacity: 0; }
+          }
+          @keyframes pulseGlow {
+            0% { opacity: 0.5; transform: translate(-50%,-50%) scale(0.95); }
+            50% { opacity: 0.8; transform: translate(-50%,-50%) scale(1.05); }
+            100% { opacity: 0.5; transform: translate(-50%,-50%) scale(0.95); }
+          }
+        `}</style>
       </div>
     )
   }

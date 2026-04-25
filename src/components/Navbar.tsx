@@ -40,6 +40,14 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
     { href: '#integrations', label: t.integrations },
   ];
 
+  const MenuIcon = ({ open }: { open: boolean }) => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <motion.path d="M4 6H20" stroke="white" strokeWidth="2" strokeLinecap="round" animate={open ? { d: "M6 6L18 18" } : { d: "M4 6H20" }} transition={{ duration: 0.2 }} />
+      <motion.path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" animate={open ? { opacity: 0 } : { opacity: 1 }} transition={{ duration: 0.2 }} />
+      <motion.path d="M4 18H20" stroke="white" strokeWidth="2" strokeLinecap="round" animate={open ? { d: "M6 18L18 6" } : { d: "M4 18H20" }} transition={{ duration: 0.2 }} />
+    </svg>
+  );
+
   return (
     <>
       <header
@@ -49,12 +57,12 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
           left: 0,
           right: 0,
           zIndex: 100,
-          height: scrolled ? 68 : 88,
+          height: isMobile ? 70 : (scrolled ? 68 : 88),
           transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-          background: scrolled ? 'rgba(5, 5, 12, 0.7)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(24px) saturate(1.2)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(24px) saturate(1.2)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid transparent',
+          background: (scrolled || menuOpen) ? 'rgba(5, 5, 12, 0.75)' : 'transparent',
+          backdropFilter: (scrolled || menuOpen) ? 'blur(24px) saturate(1.2)' : 'none',
+          WebkitBackdropFilter: (scrolled || menuOpen) ? 'blur(24px) saturate(1.2)' : 'none',
+          borderBottom: (scrolled || menuOpen) ? '1px solid rgba(255, 255, 255, 0.06)' : '1px solid transparent',
         }}
       >
         <div style={{
@@ -156,56 +164,78 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
           {/* Mobile Hamburger */}
           {isMobile && (
             <button onClick={() => setMenuOpen(!menuOpen)} style={{
-              background: 'transparent', border: 'none', color: '#fff', fontSize: 24, cursor: 'pointer', width: 40, height: 40, display: 'grid', placeItems: 'center'
+              background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 44, height: 44, cursor: 'pointer', padding: 0
             }}>
-              {menuOpen ? '✕' : '☰'}
+              <MenuIcon open={menuOpen} />
             </button>
           )}
         </div>
       </header>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Fullscreen Overlay */}
       <AnimatePresence>
         {menuOpen && isMobile && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'fixed',
-              top: scrolled ? 68 : 88,
+              top: 70, // Logo height on mobile
               left: 0,
               right: 0,
-              background: 'rgba(5, 5, 12, 0.95)',
-              backdropFilter: 'blur(20px)',
+              bottom: 0,
+              background: 'rgba(3, 2, 8, 0.98)', // Escuro profundo
+              backdropFilter: 'blur(30px)',
               zIndex: 99,
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
-              overflow: 'hidden'
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '32px 24px',
+              overflowY: 'auto'
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', gap: 20 }}>
-              <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
-                {(['pt', 'en'] as Lang[]).map(l => (
-                  <button key={l} onClick={() => setLang(l)} style={{
-                    background: lang === l ? '#7b61ff' : 'rgba(255,255,255,0.05)',
-                    border: 'none', color: '#fff', fontWeight: 600, padding: '6px 12px', borderRadius: 6,
-                  }}>
-                    {l.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-              
+            {/* Links da navegação */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, flex: 1 }}>
               {navLinks.map(({ href, label }) => (
-                <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{ color: 'rgba(255,255,255,0.8)', fontSize: 16, fontWeight: 500, textDecoration: 'none' }}>
+                <a key={href} href={href} onClick={() => setMenuOpen(false)} style={{ 
+                  color: '#fff', fontSize: 24, fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.02em',
+                }}>
                   {label}
                 </a>
               ))}
-              <hr style={{ borderColor: 'rgba(255,255,255,0.05)', margin: '8px 0' }} />
-              <a href="#" onClick={() => setMenuOpen(false)} style={{ color: '#fff', fontSize: 16, fontWeight: 500, textDecoration: 'none' }}>
+            </div>
+
+            <hr style={{ borderColor: 'rgba(255,255,255,0.06)', margin: '32px 0' }} />
+
+            {/* Ações (Idiomas + Botões) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, fontWeight: 500 }}>Idioma</span>
+                <div style={{ display: 'flex', gap: 4, background: 'rgba(255,255,255,0.05)', padding: 4, borderRadius: 100 }}>
+                  {(['pt', 'en'] as Lang[]).map(l => (
+                    <button key={l} onClick={() => setLang(l)} style={{
+                      background: lang === l ? '#7b61ff' : 'transparent',
+                      border: 'none', color: lang === l ? '#fff' : 'rgba(255,255,255,0.6)', 
+                      fontWeight: 600, padding: '8px 16px', borderRadius: 100, fontSize: 13, transition: 'all 0.2s'
+                    }}>
+                      {l.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <a href="#" onClick={() => setMenuOpen(false)} style={{ 
+                color: '#fff', fontSize: 16, fontWeight: 600, textDecoration: 'none', textAlign: 'center', padding: '16px'
+              }}>
                 {t.login}
               </a>
-              <a href="#" onClick={() => setMenuOpen(false)} style={{ color: '#050511', background: '#fff', padding: '14px', textAlign: 'center', borderRadius: 8, fontSize: 16, fontWeight: 600, textDecoration: 'none' }}>
+              <a href="#" onClick={() => setMenuOpen(false)} style={{ 
+                background: 'linear-gradient(135deg, #7b61ff 0%, #00d4ff 100%)',
+                color: '#fff', padding: '16px', textAlign: 'center', borderRadius: 16, fontSize: 16, fontWeight: 600, textDecoration: 'none',
+                boxShadow: '0 8px 32px rgba(123,97,255,0.4)'
+              }}>
                 {t.cta}
               </a>
             </div>
