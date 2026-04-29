@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Lang } from '@/lib/i18n';
+import { SYSTEM_LOGIN } from '@/lib/config';
 
 const OrbitLogoSVG = () => (
   <svg viewBox="0 0 48 48" fill="none" width={24} height={24}>
@@ -75,7 +76,7 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
           padding: isMobile ? '0 20px' : '0 24px',
         }}>
           {/* Logo */}
-          <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
             <span style={{ 
               width: 36, height: 36, borderRadius: 10, 
               background: 'linear-gradient(135deg, #160e33 0%, #301e7a 100%)', 
@@ -134,27 +135,36 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
                 ))}
               </div>
               <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.1)' }} />
-              <a href="#" style={{ color: '#fff', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+              <a
+                href={SYSTEM_LOGIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#fff', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}
+              >
                 {t.login}
               </a>
-              <a href="#" style={{
-                background: '#fff',
-                color: '#050511',
-                padding: '10px 20px',
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                textDecoration: 'none',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                (e.target as HTMLElement).style.transform = 'translateY(-1px)';
-                (e.target as HTMLElement).style.boxShadow = '0 4px 14px rgba(255,255,255,0.2)';
-              }}
-              onMouseLeave={e => {
-                (e.target as HTMLElement).style.transform = 'translateY(0)';
-                (e.target as HTMLElement).style.boxShadow = 'none';
-              }}
+              <a
+                href={SYSTEM_LOGIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: '#fff',
+                  color: '#050511',
+                  padding: '10px 20px',
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={e => {
+                  (e.target as HTMLElement).style.transform = 'translateY(-1px)';
+                  (e.target as HTMLElement).style.boxShadow = '0 4px 14px rgba(255,255,255,0.2)';
+                }}
+                onMouseLeave={e => {
+                  (e.target as HTMLElement).style.transform = 'translateY(0)';
+                  (e.target as HTMLElement).style.boxShadow = 'none';
+                }}
               >
                 {t.cta}
               </a>
@@ -183,11 +193,11 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'fixed',
-              top: 70, // Logo height on mobile
+              top: 70,
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(3, 2, 8, 0.98)', // Escuro profundo
+              background: 'rgba(3, 2, 8, 0.98)',
               backdropFilter: 'blur(30px)',
               zIndex: 99,
               display: 'flex',
@@ -226,16 +236,28 @@ export default function Navbar({ t, lang, setLang }: NavProps) {
                 </div>
               </div>
 
-              <a href="#" onClick={() => setMenuOpen(false)} style={{ 
-                color: '#fff', fontSize: 16, fontWeight: 600, textDecoration: 'none', textAlign: 'center', padding: '16px'
-              }}>
+              <a
+                href={SYSTEM_LOGIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                style={{ 
+                  color: '#fff', fontSize: 16, fontWeight: 600, textDecoration: 'none', textAlign: 'center', padding: '16px'
+                }}
+              >
                 {t.login}
               </a>
-              <a href="#" onClick={() => setMenuOpen(false)} style={{ 
-                background: 'linear-gradient(135deg, #7b61ff 0%, #00d4ff 100%)',
-                color: '#fff', padding: '16px', textAlign: 'center', borderRadius: 16, fontSize: 16, fontWeight: 600, textDecoration: 'none',
-                boxShadow: '0 8px 32px rgba(123,97,255,0.4)'
-              }}>
+              <a
+                href={SYSTEM_LOGIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                style={{ 
+                  background: 'linear-gradient(135deg, #7b61ff 0%, #00d4ff 100%)',
+                  color: '#fff', padding: '16px', textAlign: 'center', borderRadius: 16, fontSize: 16, fontWeight: 600, textDecoration: 'none',
+                  boxShadow: '0 8px 32px rgba(123,97,255,0.4)'
+                }}
+              >
                 {t.cta}
               </a>
             </div>

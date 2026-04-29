@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { i18n } from '@/lib/i18n';
 import HeroSceneWrapper from './HeroSceneWrapper';
+import { SYSTEM_LOGIN } from '@/lib/config';
 
 type T = typeof i18n['pt'] | typeof i18n['en'];
 
@@ -75,7 +76,7 @@ export default function HeroSection({ t }: { t: T }) {
                 opacity:0,
                 animation:`letter-in .5s cubic-bezier(.2,.8,.3,1) ${6.2+i*.08}s forwards`,
                 width: ch === ' ' ? '0.4em' : undefined,
-              }}>{ch === ' ' ? '\u00a0' : ch}</span>
+              }}>{ch === ' ' ? ' ' : ch}</span>
             ))}
           </div>
         </div>
@@ -105,8 +106,16 @@ export default function HeroSection({ t }: { t: T }) {
           </motion.p>
           <motion.div initial={{opacity:0,y:24,filter:'blur(12px)'}} animate={{opacity:1,y:0,filter:'blur(0px)'}} transition={{delay:9.7,duration:1,ease:[.2,.8,.3,1]}}
             className="hero-cta-group">
-            <a href="#" style={{display:'inline-flex',alignItems:'center',padding:'14px 24px',borderRadius:10,background:'var(--accent)',color:'#fff',fontWeight:600,fontSize:15,boxShadow:'0 2px 12px rgba(123,97,255,.4)',textDecoration:'none'}}>{t.hero.cta}</a>
-            <a href="#" style={{display:'inline-flex',alignItems:'center',padding:'14px 24px',borderRadius:10,background:'transparent',color:'var(--text-secondary)',border:'1px solid var(--border-default)',fontWeight:600,fontSize:15,textDecoration:'none'}}>{t.hero.ctaGhost}</a>
+            <a
+              href={SYSTEM_LOGIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{display:'inline-flex',alignItems:'center',padding:'14px 24px',borderRadius:10,background:'var(--accent)',color:'#fff',fontWeight:600,fontSize:15,boxShadow:'0 2px 12px rgba(123,97,255,.4)',textDecoration:'none',transition:'opacity .2s'}}
+            >{t.hero.cta}</a>
+            <a
+              href="#product"
+              style={{display:'inline-flex',alignItems:'center',padding:'14px 24px',borderRadius:10,background:'transparent',color:'var(--text-secondary)',border:'1px solid var(--border-default)',fontWeight:600,fontSize:15,textDecoration:'none',transition:'color .2s,border-color .2s'}}
+            >{t.hero.ctaGhost}</a>
           </motion.div>
         </div>
 

@@ -2,11 +2,12 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import type { i18n } from '@/lib/i18n';
+import { SYSTEM_LOGIN, SALES_EMAIL } from '@/lib/config';
 type T = typeof i18n['pt']['cta'] | typeof i18n['en']['cta'];
 
 import TextReveal from './TextReveal';
 
-function MagneticButton({ children, style, href }: { children: React.ReactNode, style?: any, href: string }) {
+function MagneticButton({ children, style, href, target, rel }: { children: React.ReactNode, style?: any, href: string, target?: string, rel?: string }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -26,6 +27,8 @@ function MagneticButton({ children, style, href }: { children: React.ReactNode, 
     <motion.a
       href={href}
       ref={ref}
+      target={target}
+      rel={rel}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
       animate={{ x: position.x, y: position.y }}
@@ -56,8 +59,16 @@ export default function BigCTA({ t }: { t: T }) {
             style={{fontSize:17,color:'var(--text-secondary)',margin:'16px auto 32px',maxWidth:520}}>{t.sub}</motion.p>
           <motion.div initial={{opacity:0,y:20}} animate={inView?{opacity:1,y:0}:{}} transition={{delay:.5,duration:.7}}
             style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-            <MagneticButton href="#" style={{alignItems:'center',padding:'14px 24px',borderRadius:10,background:'var(--accent)',color:'#fff',fontWeight:600,fontSize:15,boxShadow:'0 2px 12px rgba(123,97,255,.4)',textDecoration:'none'}}>{t.btn}</MagneticButton>
-            <MagneticButton href="#" style={{alignItems:'center',padding:'14px 24px',borderRadius:10,background:'transparent',color:'var(--text-secondary)',border:'1px solid var(--border-default)',fontWeight:600,fontSize:15,textDecoration:'none'}}>{t.btn2}</MagneticButton>
+            <MagneticButton
+              href={SYSTEM_LOGIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{alignItems:'center',padding:'14px 24px',borderRadius:10,background:'var(--accent)',color:'#fff',fontWeight:600,fontSize:15,boxShadow:'0 2px 12px rgba(123,97,255,.4)',textDecoration:'none'}}
+            >{t.btn}</MagneticButton>
+            <MagneticButton
+              href={SALES_EMAIL}
+              style={{alignItems:'center',padding:'14px 24px',borderRadius:10,background:'transparent',color:'var(--text-secondary)',border:'1px solid var(--border-default)',fontWeight:600,fontSize:15,textDecoration:'none'}}
+            >{t.btn2}</MagneticButton>
           </motion.div>
         </motion.div>
       </div>

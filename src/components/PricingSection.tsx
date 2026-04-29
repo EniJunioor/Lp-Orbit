@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { SYSTEM_LOGIN, SALES_EMAIL } from '@/lib/config';
 
 type Plan = { readonly name: string; readonly price: string; readonly period: string; readonly desc: string; readonly cta: string; readonly features: readonly string[]; readonly highlight?: boolean };
 type PricingData = { readonly kicker: string; readonly title: string; readonly sub: string; readonly plans: readonly Plan[] };
@@ -8,20 +9,19 @@ type PricingData = { readonly kicker: string; readonly title: string; readonly s
 export default function PricingSection({ t }: { t: PricingData }) {
   const [annual, setAnnual] = useState(true);
 
-  // Helper to calculate annual discount
   const getDisplayPrice = (priceStr: string) => {
     if (priceStr === 'Custom' || priceStr === 'Sob consulta') return priceStr;
-    if (!annual) return priceStr; // Monthly price
-    
-    // Simple mock calculation for Annual (20% off)
+    if (!annual) return priceStr;
     const num = parseInt(priceStr.replace(/\D/g, ''));
     if (isNaN(num)) return priceStr;
     const discounted = Math.floor(num * 0.8);
-    // Format back to R$ or $ based on string
     if (priceStr.includes('R$')) return `R$ ${discounted}`;
     if (priceStr.includes('$')) return `$${discounted}`;
     return priceStr;
   };
+
+  const getPlanHref = (plan: Plan) =>
+    plan.price === 'Custom' || plan.price === 'Sob consulta' ? SALES_EMAIL : SYSTEM_LOGIN;
 
   return (
     <section id="pricing" style={{ padding: '140px 24px', position: 'relative', overflow: 'hidden' }}>
@@ -103,19 +103,23 @@ export default function PricingSection({ t }: { t: PricingData }) {
                 </div>
               </div>
               
-              <a href="#" style={{
-                display: 'block', textAlign: 'center', padding: '18px', borderRadius: 14, fontSize: 16, fontWeight: 600, textDecoration: 'none',
-                background: plan.highlight ? 'linear-gradient(135deg, #7b61ff 0%, #00d4ff 100%)' : 'rgba(255,255,255,0.05)',
-                color: '#fff',
-                boxShadow: plan.highlight ? '0 10px 30px rgba(123,97,255,0.4)' : 'none',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={e => {
-                if(!plan.highlight) (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.1)'
-              }}
-              onMouseLeave={e => {
-                if(!plan.highlight) (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.05)'
-              }}
+              <a
+                href={getPlanHref(plan)}
+                target={plan.price !== 'Custom' && plan.price !== 'Sob consulta' ? '_blank' : undefined}
+                rel={plan.price !== 'Custom' && plan.price !== 'Sob consulta' ? 'noopener noreferrer' : undefined}
+                style={{
+                  display: 'block', textAlign: 'center', padding: '18px', borderRadius: 14, fontSize: 16, fontWeight: 600, textDecoration: 'none',
+                  background: plan.highlight ? 'linear-gradient(135deg, #7b61ff 0%, #00d4ff 100%)' : 'rgba(255,255,255,0.05)',
+                  color: '#fff',
+                  boxShadow: plan.highlight ? '0 10px 30px rgba(123,97,255,0.4)' : 'none',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => {
+                  if(!plan.highlight) (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.1)'
+                }}
+                onMouseLeave={e => {
+                  if(!plan.highlight) (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.05)'
+                }}
               >
                 {plan.cta}
               </a>
@@ -135,7 +139,6 @@ export default function PricingSection({ t }: { t: PricingData }) {
         </div>
       </div>
       
-      {/* Intense Background glow for Pricing */}
       <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', width: '120vw', height: '800px', background: 'radial-gradient(ellipse at center, rgba(123,97,255,0.12) 0%, rgba(0,212,255,0.05) 30%, transparent 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }} />
     </section>
   );
